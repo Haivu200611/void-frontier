@@ -1,0 +1,19 @@
+{
+  "habitat": {
+    "cost": {
+      "iron": 10,
+      "ice": 5
+    }
+  },
+  "battery": {
+    "cost": {
+      "copper": 5
+    }
+  },
+  "medkit": {
+    "cost": {
+      "ice": 3,
+      "iron": 2
+    }
+  }
+}
