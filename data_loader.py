@@ -5,7 +5,8 @@
 import json
 import os
 
-BASE_PATH = "data"
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+BASE_PATH = os.path.join(PROJECT_ROOT, "data")
 
 
 def load_json(path):
