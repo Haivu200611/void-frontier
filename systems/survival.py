@@ -2,41 +2,101 @@
 # SURVIVAL SYSTEM
 # =========================
 
-from settings import *
+from settings import (
+    BATTERY_DECAY,
+    HUNGER_DECAY,
+    MAX_STAT,
+    OXYGEN_DECAY,
+    PRESSURE_DECAY,
+    TEMPERATURE_DECAY,
+)
 
 
 class Survival:
     def __init__(self):
-        self.oxygen = 100.0
-        self.temperature = 100.0
-        self.battery = 100.0
-        self.hunger = 100.0
-        self.pressure = 100.0
+        self.stats = {
+            "oxygen": MAX_STAT,
+            "temperature": MAX_STAT,
+            "battery": MAX_STAT,
+            "hunger": MAX_STAT,
+            "pressure": MAX_STAT,
+        }
 
-    def update(self, dt):
-        self.oxygen -= OXYGEN_DECAY * dt
-        self.temperature -= TEMPERATURE_DECAY * dt
-        self.battery -= BATTERY_DECAY * dt
-        self.hunger -= HUNGER_DECAY * dt
+        self.base_drain = {
+            "oxygen": OXYGEN_DECAY,
+            "temperature": TEMPERATURE_DECAY,
+            "battery": BATTERY_DECAY,
+            "hunger": HUNGER_DECAY,
+            "pressure": PRESSURE_DECAY,
+        }
 
     # -------------------------
-    # EFFECTS
+    # CORE LOOP
     # -------------------------
+    def update(self, dt, extra_drain=None):
+        if extra_drain is None:
+            extra_drain = {}
+
+        for stat, drain in self.base_drain.items():
+            self.modify(stat, -(drain + extra_drain.get(stat, 0.0)) * dt)
+
+        # pressure critical -> oxygen leak harder
+        if self.stats["pressure"] <= 0:
+            self.modify("oxygen", -10.0 * dt)
+
+        # hunger critical -> body temperature harder to maintain
+        if self.stats["hunger"] <= 0:
+            self.modify("temperature", -6.0 * dt)
+
+    # -------------------------
+    # EFFECTS / HEALS
+    # -------------------------
+    def modify(self, stat, delta):
+        if stat not in self.stats:
+            return
+        self.stats[stat] = max(0.0, min(MAX_STAT, self.stats[stat] + delta))
+
+    def drain(self, stat, amount):
+        self.modify(stat, -amount)
+
+    def restore(self, stat, amount):
+        self.modify(stat, amount)
+
     def damage(self, amount):
-        self.oxygen -= amount
+        self.drain("pressure", amount)
 
     def heal_oxygen(self, amount):
-        self.oxygen = min(100, self.oxygen + amount)
+        self.restore("oxygen", amount)
 
     def restore_temperature(self, amount):
-        self.temperature = min(100, self.temperature + amount)
+        self.restore("temperature", amount)
 
     # -------------------------
-    # CHECK
+    # ACCESSORS
     # -------------------------
+    @property
+    def oxygen(self):
+        return self.stats["oxygen"]
+
+    @property
+    def temperature(self):
+        return self.stats["temperature"]
+
+    @property
+    def battery(self):
+        return self.stats["battery"]
+
+    @property
+    def hunger(self):
+        return self.stats["hunger"]
+
+    @property
+    def pressure(self):
+        return self.stats["pressure"]
+
     def is_dead(self):
         return (
-            self.oxygen <= 0 or
-            self.temperature <= 0 or
-            self.pressure <= 0
+            self.stats["oxygen"] <= 0
+            or self.stats["temperature"] <= 0
+            or self.stats["pressure"] <= 0
         )

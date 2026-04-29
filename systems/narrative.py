@@ -3,6 +3,7 @@
 # =========================
 
 from data_loader import load_logs
+from settings import TOTAL_LOGS, TOTAL_TERMINALS
 
 
 class Narrative:
@@ -10,6 +11,7 @@ class Narrative:
         self.logs_data = load_logs()
         self.unlocked_logs = set()
         self.terminals = set()
+        self.final_choice = None
 
     # -------------------------
     # LOGS
@@ -25,25 +27,40 @@ class Narrative:
         return [self.logs_data[i] for i in sorted(self.unlocked_logs)]
 
     # -------------------------
-    # TERMINALS (ENDING)
+    # TERMINALS
     # -------------------------
-    def unlock_terminal(self, key):
-        self.terminals.add(key)
+    def unlock_terminal(self, terminal_key):
+        self.terminals.add(terminal_key)
+
+    def can_reach_true_endgame(self):
+        return len(self.unlocked_logs) >= TOTAL_LOGS and len(self.terminals) >= TOTAL_TERMINALS
+
+    # -------------------------
+    # ENDING
+    # -------------------------
+    def set_final_choice(self, choice):
+        self.final_choice = choice
+
+    def get_ending(self):
+        if self.final_choice == "destroy_xenite":
+            return "good"
+        if self.final_choice == "call_earth":
+            return "neutral"
+        if self.final_choice == "take_xenite":
+            return "bad"
+
+        if self.can_reach_true_endgame():
+            return "pending_choice"
+        return "incomplete"
 
     # -------------------------
     # PROGRESS
     # -------------------------
+    def logs_progress(self):
+        return len(self.unlocked_logs), TOTAL_LOGS
+
+    def terminals_progress(self):
+        return len(self.terminals), TOTAL_TERMINALS
+
     def progress(self):
         return len(self.unlocked_logs)
-
-    def get_ending(self):
-        if len(self.unlocked_logs) < 10:
-            return "incomplete"
-
-        if "destroy" in self.terminals:
-            return "good"
-
-        if "escape" in self.terminals:
-            return "neutral"
-
-        return "bad"

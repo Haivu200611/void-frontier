@@ -15,7 +15,7 @@ def load_json(path):
 
 
 # -------------------------
-# STATIC LOAD (cache sẵn)
+# STATIC LOAD
 # -------------------------
 ASTEROID_DATA = load_json(os.path.join(BASE_PATH, "asteroids.json"))
 RECIPE_DATA = load_json(os.path.join(BASE_PATH, "recipes.json"))
@@ -38,11 +38,19 @@ def load_logs():
 
 
 # -------------------------
-# HELPER
+# HELPERS
 # -------------------------
 def get_asteroid_data(name):
     return ASTEROID_DATA.get(name, {})
 
 
+def get_all_asteroid_types():
+    return list(ASTEROID_DATA.keys())
+
+
 def get_recipe(name):
     return RECIPE_DATA.get(name, {}).get("cost", {})
+
+
+def get_all_recipes():
+    return RECIPE_DATA

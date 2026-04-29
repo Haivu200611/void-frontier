@@ -1,19 +1,70 @@
 {
   "habitat": {
     "cost": {
+      "iron": 12,
+      "h2o": 8,
+      "copper": 6
+    }
+  },
+  "lab": {
+    "cost": {
+      "titanium": 10,
+      "silicon": 12,
+      "copper": 8
+    }
+  },
+  "greenhouse": {
+    "cost": {
+      "iron": 8,
+      "h2o": 10,
+      "organic": 10
+    }
+  },
+  "hangar": {
+    "cost": {
+      "titanium": 14,
       "iron": 10,
-      "ice": 5
+      "copper": 10
     }
   },
-  "battery": {
+  "signal_tower": {
     "cost": {
-      "copper": 5
+      "titanium": 12,
+      "silicon": 10,
+      "co2": 6
     }
   },
-  "medkit": {
+  "suit_explorer_mk1": {
     "cost": {
-      "ice": 3,
-      "iron": 2
+      "silicon": 8,
+      "copper": 5,
+      "h2o": 4
+    }
+  },
+  "suit_engineer_mk1": {
+    "cost": {
+      "iron": 10,
+      "organic": 5,
+      "copper": 4
+    }
+  },
+  "suit_combat_mk1": {
+    "cost": {
+      "titanium": 8,
+      "co2": 5,
+      "iron": 6
+    }
+  },
+  "battery_pack": {
+    "cost": {
+      "copper": 8,
+      "silicon": 6
+    }
+  },
+  "ration_pack": {
+    "cost": {
+      "organic": 6,
+      "h2o": 4
     }
   }
 }
