@@ -43,15 +43,6 @@ Chạy ở chế độ phát triển:
 python main.py
 ```
 
-## Chạy kiểm thử
-Hiện tại dự án **chưa có test tự động**.
-
-Khi bổ sung test, có thể chạy:
-
-```bash
-python -m unittest
-```
-
 ## Cấu trúc dự án
 - `main.py`: vòng lặp game chính.
 - `scenes/`: quản lý scene (menu, gameplay, crafting, station).
