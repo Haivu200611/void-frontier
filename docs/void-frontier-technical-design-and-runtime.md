@@ -1,14 +1,14 @@
-# Void Frontier - Technical Design & Runtime Documentation
+# Void Frontier - Technical Design and Runtime Documentation
 
-## 1. Muc tieu va dinh huong gameplay
+## 1. Gameplay Goal and Direction
 
-Void Frontier la game survival-kham pha khong gian 2D su dung pygame. Gameplay duoc thiet ke theo vong lap:
+Void Frontier is a 2D space survival-exploration game built with pygame. The gameplay is designed around the loop:
 
 `Explore -> Mine -> Survive -> Decode -> Expand`
 
-Player bat dau tu escape pod, bay trong moi truong zero-g de thu thap tai nguyen, duy tri cac chi so song con, mo khoa logs/terminals ve bi an Xenite, craft module/suit va tien toi endgame zone.
+The player starts from an escape pod, flies in a zero-gravity environment to gather resources, maintains survival stats, unlocks logs and terminals about the Xenite mystery, crafts modules and suit upgrades, and progresses toward the endgame zone.
 
-## 2. Tong quan cau truc project
+## 2. Project Structure Overview
 
 ```
 void-frontier/
@@ -51,49 +51,49 @@ void-frontier/
    |- 01.md
 ```
 
-## 3. Runtime architecture
+## 3. Runtime Architecture
 
-### 3.1 Main game loop
+### 3.1 Main Game Loop
 
-`main.py` khoi tao `Game`, tao window va chay vong lap:
+`main.py` initializes `Game`, creates the window, and runs this loop:
 
-1. Tinh `dt` theo FPS.
-2. Poll events tu pygame.
-3. Forward event cho scene hien tai qua `SceneManager`.
-4. Update scene hien tai.
-5. Draw scene hien tai.
+1. Compute `dt` from FPS.
+2. Poll events from pygame.
+3. Forward events to the current scene through `SceneManager`.
+4. Update the current scene.
+5. Draw the current scene.
 
-### 3.2 Scene stack model
+### 3.2 Scene Stack Model
 
-`SceneManager` quan ly stack scenes:
+`SceneManager` controls a scene stack:
 
-- `set(scene)`: thay toan bo stack bang scene moi.
-- `push(scene)`: mo overlay scene (vi du Crafting UI).
-- `pop()`: dong overlay, quay ve scene truoc.
+- `set(scene)`: replace the entire stack with a new scene.
+- `push(scene)`: open an overlay scene (for example, Crafting UI).
+- `pop()`: close the overlay and return to the previous scene.
 
-Cach dung hien tai:
+Current usage:
 
 - `MenuScene` -> `SpaceScene` (SPACE).
-- Tu `SpaceScene` co the `push(CraftingScene)` (TAB).
+- From `SpaceScene`, `push(CraftingScene)` is available (TAB).
 
-## 4. Core gameplay loop theo code hien tai
+## 4. Core Gameplay Loop in Current Code
 
 ### 4.1 Explore
 
-- Player di chuyen bang jetpack (`WASD`) trong zero-g.
-- Physics co quan tinh, drag nhe va co phanh chu dong (`SHIFT`/`SPACE`).
-- Camera follow player theo world-space.
+- The player moves with a jetpack (`WASD`) in zero gravity.
+- Physics includes inertia, light drag, and active braking (`SHIFT`/`SPACE`).
+- The camera follows the player in world space.
 
 ### 4.2 Mine
 
-- Click chuot trai de mine asteroid.
-- Check va cham chuot vao asteroid + check khoang cach drill (`MINE_RANGE`).
-- Damage asteroid theo `MINING_POWER + mining_power_bonus`.
-- Asteroid bi pha huy se drop resources vao inventory.
+- Left mouse click mines asteroids.
+- It checks mouse collision with asteroid and drill range (`MINE_RANGE`).
+- Asteroid damage is `MINING_POWER + mining_power_bonus`.
+- Destroyed asteroids drop resources into inventory.
 
 ### 4.3 Survive
 
-He 5 chi so:
+The 5 stat system:
 
 - oxygen
 - temperature
@@ -101,48 +101,48 @@ He 5 chi so:
 - hunger
 - pressure
 
-Moi frame:
+Per frame:
 
 `stat -= (base_drain + extra_hazard_drain) * dt`
 
-Them luat phat:
+Additional penalties:
 
-- `pressure <= 0` -> oxygen leak nhanh hon.
-- `hunger <= 0` -> temperature giam nhanh hon.
+- `pressure <= 0` -> faster oxygen leak.
+- `hunger <= 0` -> faster temperature loss.
 
-Die condition:
+Death condition:
 
-- oxygen <= 0 hoac temperature <= 0 hoac pressure <= 0.
+- oxygen <= 0 or temperature <= 0 or pressure <= 0.
 
-### 4.4 Decode (narrative)
+### 4.4 Decode (Narrative)
 
-- Interaction key `E` dung de:
-  - nhat log node
-  - mo terminal node
+- `E` interaction is used to:
+  - collect log nodes
+  - unlock terminal nodes
 - Narrative tracking:
   - 23 logs
   - 7 terminals
-- Dat du dieu kien se vao `pending_choice` (endgame choice).
+- Once conditions are met, the state becomes `pending_choice` (endgame choice).
 
 ### 4.5 Expand
 
-- Craft recipes trong `CraftingScene`.
-- 3 nhom crafting:
-  - Module: habitat, lab, greenhouse, hangar, signal_tower
+- Craft recipes in `CraftingScene`.
+- 3 crafting groups:
+  - Modules: habitat, lab, greenhouse, hangar, signal_tower
   - Suit upgrades: explorer/engineer/combat
-  - Consumable: battery_pack, ration_pack
+  - Consumables: battery_pack, ration_pack
 
-Tac dung progression:
+Progression impact:
 
-- Module sinh hieu ung support khi o gan.
-- Suit upgrade thay doi stats gameplay.
-- Logs mo khoa zone tiep theo.
+- Modules provide support effects in nearby range.
+- Suit upgrades change gameplay stats.
+- Logs unlock deeper zones.
 
-## 5. Chi tiet he thong
+## 5. System Details
 
 ### 5.1 Player (entities/player.py)
 
-State va thong so:
+State and parameters:
 
 - `pos`, `vel`, `acc`
 - `accel`, `brake_accel`, `max_speed`, `drag`
@@ -151,7 +151,7 @@ State va thong so:
 Input logic:
 
 - `WASD`: thrust vector
-- `SHIFT` hoac `SPACE`: active brake, triet tieu van toc
+- `SHIFT` or `SPACE`: active brake, cancel movement speed
 
 Update logic:
 
@@ -160,7 +160,7 @@ Update logic:
 3. `vel *= drag`
 4. Clamp max speed
 5. `pos += vel * dt`
-6. Update animation theo state
+6. Update animation by state
 
 ### 5.2 Survival (systems/survival.py)
 
@@ -169,7 +169,7 @@ Data model:
 - `stats: Dict[str, float]`
 - `base_drain: Dict[str, float]`
 
-API chinh:
+Main API:
 
 - `update(dt, extra_drain)`
 - `modify/stat restore/drain/damage`
@@ -179,9 +179,9 @@ API chinh:
 
 #### Chunk streaming
 
-- World chia thanh chunk (`CHUNK_SIZE`).
-- Moi frame load 3x3 chunks quanh player.
-- Chunk da load duoc luu trong `loaded_chunks`.
+- The world is divided into chunks (`CHUNK_SIZE`).
+- Each frame loads a 3x3 chunk area around the player.
+- Loaded chunks are cached in `loaded_chunks`.
 
 #### Zone progression
 
@@ -199,39 +199,39 @@ Unlock rules (`ZONE_UNLOCK_REQUIREMENTS`):
 - outer-belt: 12 logs
 - xenith: 20 logs
 
-Gate movement:
+Movement gate:
 
-- `SpaceScene.update()` gioi han ban kinh di chuyen theo zone da unlock.
+- `SpaceScene.update()` clamps player movement to the unlocked zone radius.
 
-#### Content spawn theo zone
+#### Zone-based content spawning
 
-Moi zone co:
+Each zone has:
 
-- Bang asteroid rieng (`ZONE_ASTEROID_TABLE`)
-- Ti le hazard rieng (`ZONE_HAZARD_CHANCE`)
-- He so HP asteroid rieng (`ZONE_HP_SCALE`)
+- Its own asteroid table (`ZONE_ASTEROID_TABLE`)
+- Its own hazard probabilities (`ZONE_HAZARD_CHANCE`)
+- Its own asteroid HP scale (`ZONE_HP_SCALE`)
 
 #### Hazard system
 
-- `RadiationZone`: drain pressure + temperature
-- `EMPStorm`: drain battery
-- `DebrisField`: damage pressure truc tiep + slow velocity
+- `RadiationZone`: drains pressure and temperature
+- `EMPStorm`: drains battery
+- `DebrisField`: direct pressure damage and velocity slowdown
 
 #### Narrative nodes
 
-- Random spawn log nodes va terminal nodes khi load chunk.
-- Interaction `E` o gan se unlock narrative progress.
+- Log and terminal nodes spawn randomly during chunk loading.
+- `E` interaction at close range unlocks narrative progression.
 
 #### Base modules
 
-`world.modules` gom cac module da build:
+`world.modules` stores crafted modules:
 
-- Habitat: hoi oxygen + temperature
-- Greenhouse: hoi hunger
-- Hangar: hoi pressure
-- Lab, SignalTower: hien tai dung cho progression/trang tri logic
+- Habitat: restores oxygen and temperature
+- Greenhouse: restores hunger
+- Hangar: restores pressure
+- Lab and SignalTower: currently used as progression/structure logic
 
-### 5.4 Inventory va Crafting
+### 5.4 Inventory and Crafting
 
 Inventory (`systems/inventory.py`):
 
@@ -240,12 +240,12 @@ Inventory (`systems/inventory.py`):
 
 Crafting (`systems/crafting.py`):
 
-- doc recipe tu `data/recipes.json`
-- `can_craft` check du resource
-- `craft` tru resource
-- `classify` item thanh module/suit/consumable
+- reads recipes from `data/recipes.json`
+- `can_craft` checks resource requirements
+- `craft` consumes resources
+- `classify` maps items to module/suit/consumable
 
-### 5.5 Narrative system (systems/narrative.py)
+### 5.5 Narrative System (systems/narrative.py)
 
 Tracking:
 
@@ -258,34 +258,34 @@ Ending states:
 - `good` = destroy_xenite
 - `neutral` = call_earth
 - `bad` = take_xenite
-- `pending_choice` = da du logs + terminals
-- `incomplete` = chua du dieu kien
+- `pending_choice` = enough logs and terminals
+- `incomplete` = requirements not met
 
-### 5.6 UI systems
+### 5.6 UI Systems
 
-HUD (`ui/hud.py`) hien thi:
+HUD (`ui/hud.py`) displays:
 
 - 5 stat bars
-- radar asteroid mini-map
+- asteroid radar mini-map
 - zone + logs + terminals + modules
-- warning low stat
+- low-stat warning
 - controls hint
 
 InventoryUI (`ui/inventory_ui.py`):
 
 - toggle `I`
-- overlay list item + amount
+- overlay item list with amounts
 
 DialogueUI (`ui/dialogue_ui.py`):
 
-- da co implementation typewriter text
-- chua duoc hook vao SpaceScene hien tai
+- typewriter-style dialogue implementation exists
+- not yet integrated into current `SpaceScene` flow
 
-## 6. Data schema
+## 6. Data Schema
 
 ### 6.1 Asteroids (`data/asteroids.json`)
 
-Mau schema:
+Schema:
 
 ```json
 {
@@ -298,18 +298,18 @@ Mau schema:
 }
 ```
 
-Types hien co:
+Current types:
 
 - iron
 - titanium
 - silicon
 - copper
-- ice (drop h2o)
-- carbon (drop co2, organic)
+- ice (drops h2o)
+- carbon (drops co2, organic)
 
 ### 6.2 Recipes (`data/recipes.json`)
 
-Mau schema:
+Schema:
 
 ```json
 {
@@ -321,7 +321,7 @@ Mau schema:
 }
 ```
 
-Nhom recipes:
+Recipe groups:
 
 - Base modules
 - Suit upgrades
@@ -329,7 +329,7 @@ Nhom recipes:
 
 ### 6.3 Logs (`data/logs/log_01..23.json`)
 
-Mau schema:
+Schema:
 
 ```json
 {
@@ -340,21 +340,21 @@ Mau schema:
 }
 ```
 
-## 7. Input map
+## 7. Input Map
 
 - `SPACE` (Menu): Start game
 - `W A S D`: Move / thrust
-- `SHIFT` hoac `SPACE` (in-game): Brake
+- `SHIFT` or `SPACE` (in-game): Brake
 - `LMB`: Mine asteroid
-- `E`: Interact log/terminal
+- `E`: Interact with log/terminal
 - `TAB`: Open crafting scene
 - `I`: Toggle inventory overlay
 - `UP/DOWN` (crafting/inventory): Navigate
 - `ENTER` (crafting): Craft selected item
 - `ESC` (crafting/station): Close overlay scene
-- `1/2/3` (pending_choice): Chon ending
+- `1/2/3` (`pending_choice`): Select ending
 
-## 8. MermaidJS - Tong luong hoat dong game
+## 8. MermaidJS - Full Gameplay Flow
 
 ```mermaid
 flowchart TD
@@ -400,7 +400,7 @@ flowchart TD
     U -->|3| X[Bad ending: take_xenite]
 ```
 
-## 9. MermaidJS - Luong frame chi tiet (sequence)
+## 9. MermaidJS - Frame-Level Sequence
 
 ```mermaid
 sequenceDiagram
@@ -431,7 +431,7 @@ sequenceDiagram
     end
 ```
 
-## 10. MermaidJS - State machine progression
+## 10. MermaidJS - Progression State Machine
 
 ```mermaid
 stateDiagram-v2
@@ -446,16 +446,16 @@ stateDiagram-v2
     PendingChoice --> BadEnding: key 3
 ```
 
-## 11. Ghi chu implementation quan trong
+## 11. Important Implementation Notes
 
-1. `systems/physics.py` hien dang khong duoc goi trong SpaceScene (player tu xu ly physics trong `entities/player.py`).
-2. `DialogueUI` da co san nhung chua duoc tich hop vao flow narrative.
-3. Folder assets hien nhieu `Add.md` placeholder, game van chay nho `asset_loader` co fallback placeholder texture.
-4. `data/settings.py` la file settings cu, hien source dang dung `settings.py` o root project.
+1. `systems/physics.py` is currently not called by `SpaceScene` (player physics is handled directly in `entities/player.py`).
+2. `DialogueUI` exists but is not integrated into the current narrative flow.
+3. The assets folder contains many `Add.md` placeholders; the game still runs because `asset_loader` provides fallback placeholder textures.
+4. `data/settings.py` is an older settings file; runtime currently uses root `settings.py`.
 
-## 12. De xuat mo rong tiep theo
+## 12. Suggested Next Extensions
 
-1. Them objective system theo phase (tutorial -> midgame -> endgame) de guide player ro hon.
-2. Hook `DialogueUI` vao event collect log/terminal de tang chat story delivery.
-3. Them balancing table cho survival/hazard theo zone de tuning de dang hon.
-4. Them save/load progression (inventory, logs, terminals, modules, upgrades).
+1. Add an objective system by phase (tutorial -> midgame -> endgame) for clearer guidance.
+2. Hook `DialogueUI` into log/terminal interactions to improve story delivery.
+3. Add a zone-based balancing table for easier survival and hazard tuning.
+4. Add save/load progression (inventory, logs, terminals, modules, upgrades).
