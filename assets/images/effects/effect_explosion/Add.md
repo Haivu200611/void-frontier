@@ -1,10 +1,10 @@
-# Explosion Effect
+﻿# Hiệu Ứng Nổ
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Hiệu ứng nổ
-- Không quá lớn (ảnh hưởng performance)
+- Tạo cảm giác va chạm mạnh nhưng bán kính hợp lý
+- Tối ưu dung lượng để đảm bảo hiệu năng runtime

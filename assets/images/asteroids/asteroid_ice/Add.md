@@ -1,10 +1,10 @@
-# Asteroid Ice
+﻿# Thiên Thạch Băng
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Màu xanh nhạt
-- Có thể thêm hiệu ứng sáng nhẹ
+- Dùng tông xanh lạnh/nhạt để nhận diện nhanh
+- Có thể thêm ánh sáng nhẹ nhưng tránh quá chói

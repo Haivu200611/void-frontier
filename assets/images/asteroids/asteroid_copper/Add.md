@@ -1,9 +1,10 @@
-# Asteroid Copper
+﻿# Thiên Thạch Đồng
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Màu cam / nâu
+- Dùng tông cam nâu đặc trưng của đồng
+- Thêm vân khoáng để texture không bị phẳng khi nhìn xa

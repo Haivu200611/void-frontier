@@ -1,12 +1,13 @@
-# Sound Effects
+﻿# Hiệu Ứng Âm Thanh
 
-## Required
+## Tệp Bắt Buộc
 
-- jetpack.wav
-- mining.wav
-- explosion.wav
-- click.wav
+- `jetpack.wav`
+- `mining.wav`
+- `explosion.wav`
+- `click.wav`
 
-## Notes
+## Ghi Chú
 
-- Ngắn, rõ
+- Âm ngắn, rõ, phản hồi nhanh theo thao tác
+- Cân bằng loudness để tránh clip/chói

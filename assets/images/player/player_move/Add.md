@@ -1,9 +1,10 @@
-# Player Move
+﻿# Trạng Thái Di Chuyển Của Nhân Vật
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Trạng thái di chuyển
+- Thể hiện cảm giác chuyển động zero-g có kiểm soát
+- Giữ tỉ lệ và tâm trùng với trạng thái đứng yên/đẩy lực

@@ -1,9 +1,10 @@
-# Mining Effect
+﻿# Hiệu Ứng Khoan
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Tia lửa / spark
+- Dạng tia lửa/va chạm để phản hồi thao tác khoan
+- Giữ hiệu ứng gọn để không che gameplay

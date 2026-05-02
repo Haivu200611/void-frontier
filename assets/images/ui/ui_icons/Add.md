@@ -1,12 +1,16 @@
-# UI Icons
+﻿# Icon UI
 
-## Required
+## Tệp Bắt Buộc
 
-- iron.png
-- ice.png
-- copper.png
-- battery.png
+- `iron.png`
+- `ice.png`
+- `copper.png`
+- `battery.png`
+- `carbon.png`
+- `silicon.png`
+- `titanium.png`
 
-## Notes
+## Ghi Chú
 
-- Icon nhỏ, rõ ràng
+- Icon cần rõ ở kích thước nhỏ
+- Dùng ngôn ngữ hình khối và tương phản màu nhất quán

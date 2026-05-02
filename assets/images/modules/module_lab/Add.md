@@ -1,9 +1,10 @@
-# Lab Module
+﻿# Mô-đun Lab
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Module nghiên cứu
+- Thiên về ngôn ngữ hình ảnh nghiên cứu/công nghệ
+- Giữ tỉ lệ đồng nhất với các mô-đun khác

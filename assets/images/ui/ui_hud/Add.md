@@ -1,10 +1,11 @@
-# HUD UI
+﻿# HUD UI
 
-## Required
+## Tệp Bắt Buộc
 
-- bar_bg.png
-- bar_fill.png
+- `bar_bg.png`
+- `bar_fill.png`
 
-## Notes
+## Ghi Chú
 
-- Dùng cho thanh OXY / BAT / TMP
+- Dùng cho thanh chỉ số sống còn (OXY/TMP/BAT/FOOD/PRESS)
+- Hạn chế họa tiết rối để số liệu luôn dễ đọc

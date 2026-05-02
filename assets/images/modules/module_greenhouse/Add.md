@@ -1,9 +1,10 @@
-# Greenhouse Module
+﻿# Mô-đun Greenhouse
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Module sản xuất food
+- Dùng dấu hiệu sinh học/thực phẩm (tông xanh)
+- Đảm bảo tương phản tốt trên nền tối

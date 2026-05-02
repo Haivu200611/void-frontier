@@ -1,10 +1,10 @@
-# Thruster Effect
+﻿# Hiệu Ứng Jetpack
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Hiệu ứng lửa nhỏ
-- Dùng cho jetpack
+- Cần thể hiện rõ hướng đẩy của jetpack
+- Tránh màu quá sáng gây chói HUD

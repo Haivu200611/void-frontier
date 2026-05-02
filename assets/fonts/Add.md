@@ -1,11 +1,11 @@
-# Fonts
+﻿# Phông Chữ
 
-## Required Files
+## Tệp Bắt Buộc
 
-- main.ttf → font chính UI
-- mono.ttf → font terminal / log
+- `main.ttf` dùng cho chữ UI chính
+- `mono.ttf` dùng cho terminal/log
 
-## Notes
+## Ghi Chú
 
-- Ưu tiên font dễ đọc
-- Không dùng quá 2 font trong game
+- Ưu tiên dễ đọc ở kích thước nhỏ
+- Nên giới hạn tối đa 2 họ phông để giao diện nhất quán

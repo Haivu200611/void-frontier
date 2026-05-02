@@ -1,10 +1,10 @@
-# Player Idle
+﻿# Trạng Thái Đứng Yên Của Nhân Vật
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Trạng thái đứng yên
-- Nhân vật centered
+- Dáng đứng yên cần rõ ràng, dễ đọc
+- Bắt buộc căn tâm trùng với các trạng thái khác

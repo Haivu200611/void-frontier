@@ -1,9 +1,10 @@
-# Player Death
+﻿# Trạng Thái Tử Vong Của Nhân Vật
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Animation chết
+- Phải khác biệt rõ với trạng thái đứng yên
+- Giữ căn tâm tương thích với bộ sprite hiện tại

@@ -1,10 +1,10 @@
-# Asteroid Iron
+﻿# Thiên Thạch Sắt
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Màu xám
-- Kích thước đồng nhất với các asteroid khác
+- Dùng tông xám kim loại
+- Giữ cạnh rõ để dễ nhìn trên nền không gian tối

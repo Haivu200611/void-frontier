@@ -1,10 +1,10 @@
-# Habitat Module
+﻿# Mô-đun Habitat
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Module hồi oxy
-- Kích thước lớn hơn player
+- Thiết kế gợi chức năng hỗ trợ sự sống
+- Vùng mô-đun nên dễ nhận biết khi đứng gần

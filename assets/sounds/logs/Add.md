@@ -1,10 +1,10 @@
-# Audio Logs
+﻿# Nhật Ký Âm Thanh
 
-## Required
+## Tệp Bắt Buộc
 
-- log01.ogg → log23.ogg
+- `log01.ogg` -> `log23.ogg`
 
-## Notes
+## Ghi Chú
 
-- Phải trùng với data/logs
-- Giọng rõ ràng
+- Tên tệp phải khớp dữ liệu trong `data/logs`
+- Giọng đọc rõ, dễ hiểu trên nền ambient

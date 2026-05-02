@@ -1,9 +1,10 @@
-# Player Thruster
+﻿# Trạng Thái Đẩy Lực Của Nhân Vật
 
-## Required
+## Tệp Bắt Buộc
 
-- texture.png
+- `texture.png`
 
-## Notes
+## Ghi Chú
 
-- Khi dùng jetpack
+- Nhấn mạnh trạng thái đang đẩy jetpack
+- Tránh hiệu ứng lửa che mất silhouette nhân vật

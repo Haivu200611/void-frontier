@@ -1,11 +1,10 @@
+﻿# Âm Nền Ambient
 
-# Ambient Sound
+## Tệp Bắt Buộc
 
-## Required
+- `space_loop.wav`
 
-- space_loop.wav
+## Ghi Chú
 
-## Notes
-
-- Loop liên tục
-- Âm lượng thấp
+- Loop mượt, không lộ điểm nối
+- Âm lượng thấp hơn SFX gameplay
