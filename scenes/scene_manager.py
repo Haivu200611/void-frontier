@@ -15,7 +15,7 @@ class SceneManager:
 
     def push(self, scene):
         if self.stack:
-            self.stack[-1].exit()
+            self.stack[-1].pause()
         self.stack.append(scene)
         scene.enter()
 
@@ -25,7 +25,7 @@ class SceneManager:
             self.stack.pop()
 
         if self.stack:
-            self.stack[-1].enter()
+            self.stack[-1].resume()
 
     def current(self):
         return self.stack[-1] if self.stack else None

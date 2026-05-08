@@ -6,6 +6,7 @@ import pygame
 
 from asset_loader import load_animation
 from settings import PLAYER_ACCEL, PLAYER_BRAKE_ACCEL, PLAYER_DRAG, PLAYER_MAX_SPEED
+from systems.physics import apply_friction, apply_velocity, clamp_speed
 
 
 class Player(pygame.sprite.Sprite):
@@ -50,6 +51,7 @@ class Player(pygame.sprite.Sprite):
         # progression stats (suit upgrades)
         self.mining_power_bonus = 0
         self.hazard_resistance = 0.0
+        self._thrusting = False
 
     # -------------------------
     # INPUT
@@ -70,10 +72,13 @@ class Player(pygame.sprite.Sprite):
         if self.acc.length_squared() > 0:
             self.acc = self.acc.normalize() * self.accel
             self.state = "thrust"
+            self._thrusting = True
         elif self.vel.length_squared() > 4:
             self.state = "move"
+            self._thrusting = False
         else:
             self.state = "idle"
+            self._thrusting = False
 
         # active brake in zero-g
         if keys[pygame.K_LSHIFT] or keys[pygame.K_SPACE]:
@@ -87,20 +92,22 @@ class Player(pygame.sprite.Sprite):
     # -------------------------
     # UPDATE
     # -------------------------
-    def update(self, dt):
+    def update(self, dt, apply_motion=True):
         self.handle_input(dt)
 
         # zero-g inertia: thrust changes velocity, drag is low
         self.vel += self.acc * dt
-        self.vel *= self.drag
-
-        if self.vel.length() > self.max_speed:
-            self.vel.scale_to_length(self.max_speed)
-
-        self.pos += self.vel * dt
-        self.rect.center = self.pos
+        apply_friction(self, self.drag)
+        clamp_speed(self, self.max_speed)
+        if apply_motion:
+            apply_velocity(self, dt)
+        else:
+            self.rect.center = self.pos
 
         self.update_animation(dt)
+
+    def is_thrusting(self):
+        return self._thrusting
 
     # -------------------------
     # PROGRESSION

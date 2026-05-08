@@ -7,6 +7,7 @@ import os
 
 IMAGE_CACHE = {}
 ANIMATION_CACHE = {}
+SOUND_CACHE = {}
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -23,6 +24,10 @@ def _make_placeholder(size=(64, 64), color=(255, 0, 255)):
     pygame.draw.line(surface, color, (0, 0), (size[0] - 1, size[1] - 1), 2)
     pygame.draw.line(surface, color, (size[0] - 1, 0), (0, size[1] - 1), 2)
     return surface
+
+
+def asset_exists(path):
+    return os.path.isfile(_resolve_path(path))
 
 
 # -------------------------
@@ -67,11 +72,36 @@ def load_animation(folder, fallback_size=(64, 64), fallback_color=(255, 0, 255))
 # LOAD SOUND
 # -------------------------
 def load_sound(path):
-    return pygame.mixer.Sound(_resolve_path(path))
+    resolved_path = _resolve_path(path)
+    if resolved_path in SOUND_CACHE:
+        return SOUND_CACHE[resolved_path]
+
+    # pygame.mixer may be unavailable in some dev environments.
+    if not pygame.mixer.get_init():
+        class _SilentSound:
+            def play(self, *args, **kwargs):
+                return None
+
+        SOUND_CACHE[resolved_path] = _SilentSound()
+        return SOUND_CACHE[resolved_path]
+
+    try:
+        SOUND_CACHE[resolved_path] = pygame.mixer.Sound(resolved_path)
+    except (FileNotFoundError, pygame.error):
+        class _SilentSound:
+            def play(self, *args, **kwargs):
+                return None
+
+        SOUND_CACHE[resolved_path] = _SilentSound()
+
+    return SOUND_CACHE[resolved_path]
 
 
 # -------------------------
 # LOAD FONT
 # -------------------------
 def load_font(path, size):
-    return pygame.font.Font(_resolve_path(path), size)
+    resolved_path = _resolve_path(path)
+    if os.path.isfile(resolved_path):
+        return pygame.font.Font(resolved_path, size)
+    return pygame.font.SysFont(None, size)

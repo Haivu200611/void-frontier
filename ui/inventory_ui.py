@@ -4,6 +4,7 @@
 
 import pygame
 from settings import *
+from asset_loader import asset_exists, load_image
 
 
 class InventoryUI:
@@ -13,6 +14,23 @@ class InventoryUI:
         self.selected = 0
 
         self.font = pygame.font.SysFont(None, 32)
+        self.icons = {}
+        self._load_icons()
+
+    def _load_icons(self):
+        icon_files = [
+            "iron",
+            "titanium",
+            "silicon",
+            "copper",
+            "ice",
+            "carbon",
+            "battery",
+        ]
+        for name in icon_files:
+            path = f"assets/images/ui/ui_icons/{name}.png"
+            if asset_exists(path):
+                self.icons[name] = pygame.transform.smoothscale(load_image(path), (20, 20))
 
     # -------------------------
     # TOGGLE
@@ -53,5 +71,8 @@ class InventoryUI:
         for i, (name, amount) in enumerate(items):
             color = GREEN if i == self.selected else WHITE
             text = self.font.render(f"{name}: {amount}", True, color)
-
-            screen.blit(text, (WIDTH // 2 - 100, 200 + i * 40))
+            y = 200 + i * 40
+            icon = self.icons.get(name)
+            if icon:
+                screen.blit(icon, (WIDTH // 2 - 132, y + 3))
+            screen.blit(text, (WIDTH // 2 - 100, y))

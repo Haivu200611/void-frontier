@@ -16,6 +16,16 @@ Dự án được xây dựng bằng **Python** và **pygame**.
 - Chế tạo module, nâng cấp suit và vật phẩm tiêu hao.
 - Mở khóa dần các zone theo tiến độ khám phá.
 
+## Bộ nguyên lý gameplay (đã áp dụng)
+- **Core loop rõ ràng**: `Khám phá -> Khai thác -> Sinh tồn -> Giải mã -> Mở rộng`.
+- **Risk/Reward**: vào zone sâu sẽ có tài nguyên tốt hơn nhưng hazard mạnh hơn.
+- **Tiến trình có khóa mở**: log và terminal mở khóa zone + endgame.
+- **Nhiều hướng build**: module căn cứ + nâng cấp suit theo phong cách chơi.
+- **Phản hồi trực quan**: HUD hiển thị stat, cảnh báo low stat, mission progress.
+- **Fail state và Win state**:
+  - Thua khi oxygen/temperature/pressure về 0.
+  - Thắng khi mở đủ log + terminal và chọn ending.
+
 ## Điều khiển
 - `SPACE` (menu): bắt đầu game.
 - `W A S D`: di chuyển.
@@ -52,5 +62,15 @@ python main.py
 - `data/`: dữ liệu tĩnh (asteroids, recipes, logs).
 - `assets/`: font, hình ảnh và âm thanh.
 
+## Chuẩn asset bắt buộc cho gameplay
+- `player`: `player_idle`, `player_move`, `player_thruster`.
+- `asteroids`: `iron`, `titanium`, `silicon`, `copper`, `ice`, `carbon`.
+- `modules`: `habitat`, `lab`, `greenhouse`, `hangar`, `signal_tower`.
+- `ui_hud`: `bar_bg.png`, `bar_fill.png`.
+- `ui_icons`: `battery`, `iron`, `titanium`, `silicon`, `copper`, `ice`, `carbon`.
+
+Game sẽ tự kiểm tra các asset core lúc khởi chạy. Nếu thiếu file, game vẫn chạy bằng placeholder để không làm gián đoạn dev, đồng thời in danh sách file thiếu để bổ sung sau.
+
 ## Ghi chú
 - Nhiều file trong `assets/` đang là placeholder (`Add.md`), phù hợp cho giai đoạn phát triển bài tập nhóm.
+- Hiện tại nếu thiếu texture `module_hangar` và `module_signal_tower`, game vẫn hoạt động nhưng sẽ dùng ảnh fallback.

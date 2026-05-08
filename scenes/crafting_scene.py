@@ -4,15 +4,16 @@
 
 import pygame
 
+from data_loader import get_recipe
 from scenes.scene_base import Scene
 from settings import GREEN, HEIGHT, WHITE, WIDTH
 
 
 class CraftingScene(Scene):
-    def __init__(self, game):
+    def __init__(self, game, space_scene):
         super().__init__(game)
+        self.space_scene = space_scene
 
-        space_scene = self.game.scene_manager.stack[0]
         self.options = space_scene.crafting.get_options()
         self.selected = 0
         self.feedback = ""
@@ -33,10 +34,9 @@ class CraftingScene(Scene):
                     self.craft()
 
     def craft(self):
-        space_scene = self.game.scene_manager.stack[0]
         item = self.options[self.selected]
 
-        ok, msg = space_scene.handle_craft(item)
+        ok, msg = self.space_scene.handle_craft(item)
         self.feedback = msg
         if ok:
             print(msg)
@@ -54,9 +54,19 @@ class CraftingScene(Scene):
         screen.blit(title, (WIDTH // 2 - 80, 120))
 
         for i, opt in enumerate(self.options):
-            color = GREEN if i == self.selected else WHITE
+            can_craft = self.space_scene.crafting.can_craft(opt)
+            if i == self.selected:
+                color = GREEN if can_craft else (255, 180, 80)
+            else:
+                color = WHITE if can_craft else (180, 180, 180)
             text = tiny.render(opt, True, color)
             screen.blit(text, (WIDTH // 2 - 160, 200 + i * 26))
+
+        selected_item = self.options[self.selected]
+        recipe = get_recipe(selected_item)
+        cost_text = ", ".join([f"{k}:{v}" for k, v in recipe.items()])
+        cost_surface = tiny.render(f"Cost: {cost_text}", True, WHITE)
+        screen.blit(cost_surface, (WIDTH // 2 - 160, HEIGHT - 110))
 
         if self.feedback:
             msg = tiny.render(self.feedback, True, WHITE)

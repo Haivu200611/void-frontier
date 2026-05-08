@@ -1,0 +1,66 @@
+{
+  "player": {
+    "pos": [
+      -430.595264299458,
+      81.63341210387887
+    ],
+    "vel": [
+      -0.3391930590924126,
+      -0.28588037180294074
+    ],
+    "max_speed": 650,
+    "accel": 420,
+    "mining_power_bonus": 0,
+    "hazard_resistance": 0.0
+  },
+  "survival": {
+    "oxygen": 99.75000000000001,
+    "temperature": 99.90833333333335,
+    "battery": 99.86666666666665,
+    "hunger": 99.94999999999997,
+    "pressure": 99.925
+  },
+  "inventory": {},
+  "narrative": {
+    "unlocked_logs": [],
+    "terminals": [],
+    "final_choice": null
+  },
+  "world": {
+    "modules": [],
+    "log_nodes": [
+      {
+        "id": 1,
+        "pos": [
+          1280.0,
+          1280.0
+        ],
+        "zone": "epsilon",
+        "collected": false
+      }
+    ],
+    "terminal_nodes": [
+      {
+        "id": "terminal_1",
+        "pos": [
+          366.0,
+          688.0
+        ],
+        "zone": "epsilon",
+        "used": false
+      },
+      {
+        "id": "terminal_2",
+        "pos": [
+          878.0,
+          1200.0
+        ],
+        "zone": "epsilon",
+        "used": false
+      }
+    ],
+    "next_log_id": 2,
+    "next_terminal_id": 3
+  },
+  "mission_stage": "bootstrap"
+}
